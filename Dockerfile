@@ -2,10 +2,7 @@ FROM runpod/worker-comfyui:5.7.1-base
 
 WORKDIR /comfyui
 
-# ============================================================
-# 1. Install Custom Nodes
-# ============================================================
-
+# Install Custom Nodes
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
     cd ComfyUI-Easy-Use && \
@@ -19,11 +16,12 @@ RUN cd /comfyui/custom_nodes && \
     cd Comfyui-QwenEditUtils && \
     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-# ============================================================
-# 2. Link models from Network Volume at startup
-# ============================================================
-
+# Copy link script
 COPY link_models.sh /link_models.sh
 RUN chmod +x /link_models.sh
 
-ENV STARTUP_SCRIPT=/link_models.sh
+# Override entrypoint to run link script first
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
