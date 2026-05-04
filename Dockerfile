@@ -16,12 +16,6 @@ RUN cd /comfyui/custom_nodes && \
     cd Comfyui-QwenEditUtils && \
     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-# Copy link script
+# Copy link script — base image will run it via STARTUP_SCRIPT env var
 COPY link_models.sh /link_models.sh
 RUN chmod +x /link_models.sh
-
-# Override entrypoint to run link script first
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-CMD ["/start.sh"]
