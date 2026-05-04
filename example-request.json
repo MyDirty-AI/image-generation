@@ -1,0 +1,211 @@
+{
+    "input": {
+        "workflow": {
+            "64": {
+                "inputs": {
+                    "shift": 2,
+                    "model": [
+                        "164",
+                        0
+                    ]
+                },
+                "class_type": "ModelSamplingAuraFlow",
+                "_meta": {
+                    "title": "ModelSamplingAuraFlow"
+                }
+            },
+            "65": {
+                "inputs": {
+                    "strength": 1,
+                    "model": [
+                        "64",
+                        0
+                    ]
+                },
+                "class_type": "CFGNorm",
+                "_meta": {
+                    "title": "CFGNorm"
+                }
+            },
+            "72": {
+                "inputs": {
+                    "anything": [
+                        "75",
+                        0
+                    ]
+                },
+                "class_type": "easy cleanGpuUsed",
+                "_meta": {
+                    "title": "Clean VRAM Used"
+                }
+            },
+            "73": {
+                "inputs": {
+                    "samples": [
+                        "72",
+                        0
+                    ],
+                    "vae": [
+                        "162",
+                        2
+                    ]
+                },
+                "class_type": "VAEDecode",
+                "_meta": {
+                    "title": "VAE Decode"
+                }
+            },
+            "75": {
+                "inputs": {
+                    "seed": 753532352397258,
+                    "steps": 4,
+                    "cfg": 1,
+                    "sampler_name": "euler_ancestral",
+                    "scheduler": "simple",
+                    "denoise": 1,
+                    "model": [
+                        "65",
+                        0
+                    ],
+                    "positive": [
+                        "132",
+                        0
+                    ],
+                    "negative": [
+                        "133",
+                        0
+                    ],
+                    "latent_image": [
+                        "148",
+                        0
+                    ]
+                },
+                "class_type": "KSampler",
+                "_meta": {
+                    "title": "KSampler"
+                }
+            },
+            "77": {
+                "inputs": {
+                    "filename_prefix": "ComfyUI",
+                    "images": [
+                        "73",
+                        0
+                    ]
+                },
+                "class_type": "SaveImage",
+                "_meta": {
+                    "title": "Save Image"
+                }
+            },
+            "132": {
+                "inputs": {
+                    "prompt": "Position her in a bright, airy living room with soft sunlight filtering through windows, sitting comfortably on a plush couch while playfully using a sleek vibrator on herself, rendering her completely nude with a sensual expression. masterpiece, best quality, highres, 1girl, horny, ecstasy, looking at viewer",
+                    "clip": [
+                        "162",
+                        1
+                    ],
+                    "vae": [
+                        "162",
+                        2
+                    ],
+                    "image1": [
+                        "134",
+                        0
+                    ],
+                    "image2": [
+                        "149",
+                        0
+                    ]
+                },
+                "class_type": "TextEncodeQwenImageEditPlus",
+                "_meta": {
+                    "title": "TextEncodeQwenImageEditPlus"
+                }
+            },
+            "133": {
+                "inputs": {
+                    "prompt": "(Dont add extra hands:1.5), (make sure the character has 5 fingers on each hand:1.35), (low quality, worst quality:1.5), (bad anatomy), lowres, bad composition, fewer digits, text, username, logo, inaccurate eyes, extra digits, fewer digits, extra arms, disfigured, missing arms, too many fingers, fused fingers, missing fingers,",
+                    "clip": [
+                        "162",
+                        1
+                    ],
+                    "vae": [
+                        "162",
+                        2
+                    ],
+                    "image1": [
+                        "134",
+                        0
+                    ]
+                },
+                "class_type": "TextEncodeQwenImageEditPlus",
+                "_meta": {
+                    "title": "TextEncodeQwenImageEditPlus"
+                }
+            },
+            "134": {
+                "inputs": {
+                    "image": "reference_face.jpg"
+                },
+                "class_type": "LoadImage",
+                "_meta": {
+                    "title": "Load Image"
+                }
+            },
+            "148": {
+                "inputs": {
+                    "width": 672,
+                    "height": 1568,
+                    "batch_size": 1
+                },
+                "class_type": "EmptyLatentImage",
+                "_meta": {
+                    "title": "Empty Latent Image"
+                }
+            },
+            "149": {
+                "inputs": {
+                    "image": "reference_body.jpg"
+                },
+                "class_type": "LoadImage",
+                "_meta": {
+                    "title": "Load Image"
+                }
+            },
+            "162": {
+                "inputs": {
+                    "ckpt_name": "Qwen-Rapid-AIO-NSFW-v23.safetensors"
+                },
+                "class_type": "CheckpointLoaderSimple",
+                "_meta": {
+                    "title": "Load Checkpoint"
+                }
+            },
+            "164": {
+                "inputs": {
+                    "lora_name": "Unchained-XXX.safetensors",
+                    "strength_model": 0.4,
+                    "model": [
+                        "162",
+                        0
+                    ]
+                },
+                "class_type": "LoraLoaderModelOnly",
+                "_meta": {
+                    "title": "Load LoRA"
+                }
+            }
+        },
+        "images": [
+            {
+                "name": "reference_face.jpg",
+                "image": "/9j/4AAQSkZJRgABAQ... (BASE64_ENCODED_REFERENCE_IMAGE_1)"
+            },
+            {
+                "name": "reference_body.jpg",
+                "image": "/9j/4AAQSkZJRgABAQ... (BASE64_ENCODED_REFERENCE_IMAGE_2)"
+            }
+        ]
+    }
+}
