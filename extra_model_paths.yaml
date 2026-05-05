@@ -1,11 +1,12 @@
 runpod_volume:
   base_path: /runpod-volume/
   checkpoints: models/checkpoints/
-  loras: models/loras/
-  vae: models/vae/
+  diffusion_models: models/unet/
+  unet: models/unet/
   clip: models/clip/
-  diffusion_models: models/diffusion_models/
-  text_encoders: models/text_encoders/
+  text_encoders: models/clip/
+  vae: models/vae/
+  loras: models/loras/
   embeddings: models/embeddings/
   controlnet: models/controlnet/
   upscale_models: models/upscale_models/
