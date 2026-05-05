@@ -1,15 +1,21 @@
-FROM runpod/worker-comfyui:5.8.5-base
+FROM runpod/worker-comfyui:5.7.1-base
 
 WORKDIR /comfyui
+
+# ComfyUI-Easy-Use
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
+    cd ComfyUI-Easy-Use && \
+    if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
 # cg-use-everywhere
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/chrisgoringe/cg-use-everywhere.git
 
-# ComfyUI-GGUF node for loading GGUF models
+# Comfyui-QwenEditUtils
 RUN cd /comfyui/custom_nodes && \
-    git clone https://github.com/city96/ComfyUI-GGUF.git && \
-    cd ComfyUI-GGUF && \
-    pip install -r requirements.txt
+    git clone https://github.com/lrzjason/Comfyui-QwenEditUtils.git && \
+    cd Comfyui-QwenEditUtils && \
+    if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
 COPY extra_model_paths.yaml /comfyui/extra_model_paths.yaml
