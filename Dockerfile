@@ -1,29 +1,24 @@
-FROM runpod/worker-comfyui:5.7.1-base
-
+FROM runpod/worker-comfyui:5.8.5-base
 WORKDIR /comfyui
 
-# Install aria2 for fast parallel downloads
-RUN apt-get update && apt-get install -y aria2 && rm -rf /var/lib/apt/lists/*
-
-# Custom nodes
-RUN cd /comfyui/custom_nodes && \
-    git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
-    cd ComfyUI-Easy-Use && pip install -r requirements.txt || true
+RUN apt-get update && apt-get install -y aria2 libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/chrisgoringe/cg-use-everywhere.git
 
 RUN cd /comfyui/custom_nodes && \
-    git clone https://github.com/lrzjason/Comfyui-QwenEditUtils.git && \
-    cd Comfyui-QwenEditUtils && pip install -r requirements.txt || true
+    git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
-# Bake Qwen v23 into image with 16 parallel connections
-RUN aria2c -x 16 -s 16 --file-allocation=none \
-    "https://huggingface.co/Phr00t/Qwen-Image-Edit-Rapid-AIO/resolve/main/v23/Qwen-Rapid-AIO-NSFW-v23.safetensors" \
-    -d /comfyui/models/checkpoints/ \
-    -o Qwen-Rapid-AIO-NSFW-v23.safetensors
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/Acly/comfyui-tooling-nodes.git
 
-# Verify model downloaded correctly
-RUN ls -lh /comfyui/models/checkpoints/
+RUN /opt/venv/bin/pip install --no-cache-dir \
+    accelerate \
+    xformers
+
+RUN /opt/venv/bin/pip install --no-cache-dir \
+    "insightface==0.7.3" \
+    "onnxruntime-gpu==1.16.3" \
+    opencv-python-headless
 
 COPY extra_model_paths.yaml /comfyui/extra_model_paths.yaml
