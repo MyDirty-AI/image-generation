@@ -12,13 +12,12 @@ RUN cd /comfyui/custom_nodes && \
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/Acly/comfyui-tooling-nodes.git
 
-RUN /opt/venv/bin/pip install --no-cache-dir \
-    accelerate \
-    xformers
+RUN /opt/venv/bin/pip install --no-cache-dir accelerate xformers
+
+RUN /opt/venv/bin/pip show onnxruntime-gpu || /opt/venv/bin/pip show onnxruntime
 
 RUN /opt/venv/bin/pip install --no-cache-dir \
     "insightface==0.7.3" \
-    "onnxruntime-gpu==1.16.3" \
     opencv-python-headless
 
 COPY extra_model_paths.yaml /comfyui/extra_model_paths.yaml
