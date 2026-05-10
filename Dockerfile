@@ -3,6 +3,7 @@ WORKDIR /comfyui
 
 RUN apt-get update && apt-get install -y \
     aria2 libgl1 libglib2.0-0 \
+    python3-dev build-essential cmake git \
     && rm -rf /var/lib/apt/lists/*
 
 RUN cd /comfyui/custom_nodes && \
@@ -16,9 +17,13 @@ RUN cd /comfyui/custom_nodes && \
 
 RUN /opt/venv/bin/pip install --no-cache-dir accelerate xformers
 
-# Pre-compiled insightface wheel for Python 3.12 Linux x86_64
-RUN /opt/venv/bin/pip install --no-cache-dir \
-    "https://huggingface.co/AlienMachineAI/insightface-0.7.3-cp312-cp312-linux_x86_64.whl/resolve/main/insightface-0.7.3-cp312-cp312-linux_x86_64.whl" \
-    opencv-python-headless
+# Build insightface from source for Python 3.12
+RUN /opt/venv/bin/pip install --no-cache-dir cython numpy && \
+    git clone https://github.com/deepinsight/insightface.git /tmp/insightface && \
+    cd /tmp/insightface/python-package && \
+    /opt/venv/bin/pip install --no-cache-dir . && \
+    rm -rf /tmp/insightface
+
+RUN /opt/venv/bin/pip install --no-cache-dir opencv-python-headless
 
 COPY extra_model_paths.yaml /comfyui/extra_model_paths.yaml
