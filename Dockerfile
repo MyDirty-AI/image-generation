@@ -14,8 +14,6 @@ RUN cd /comfyui/custom_nodes && \
 
 RUN /opt/venv/bin/pip install --no-cache-dir accelerate xformers
 
-RUN /opt/venv/bin/pip show onnxruntime-gpu || /opt/venv/bin/pip show onnxruntime
-
 RUN /opt/venv/bin/pip install --no-cache-dir \
     "insightface==0.7.3" \
     opencv-python-headless
